@@ -1,0 +1,47 @@
+﻿@model IDictionary<string, Model>
+
+<div class="form-horizontal row">
+<form method="post">
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@{
+    if (Model == null)
+    {
+        foreach (var kvp in ViewContext.RouteData.DataTokens)
+        {
+            <div class="form-group">
+                <label asp-for="@Model[kvp.Key].Value" class="control-label col-md-2">@kvp.Key:</label>
+                <div class="col-md-8">
+                    <input asp-for="@Model[kvp.Key].Value" class="form-control" readonly="readonly" value="@kvp.Value" />
+                </div>
+            </div>
+        }
+
+        foreach (var kvp in ViewContext.RouteData.Values)
+        {
+            <div class="form-group">
+                <label asp-for="@Model[kvp.Key].Value" class="control-label col-md-2">@kvp.Key:</label>
+                <div class="col-md-8">
+                    <input asp-for="@Model[kvp.Key].Value" class="form-control" readonly="readonly" value="@kvp.Value" />
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        foreach (var kvp in Model)
+        {
+            <input asp-for="@Model[kvp.Key].FieldName" type="hidden" />
+            <div class="form-group">
+                <label asp-for="@Model[kvp.Key].Value" class="control-label col-md-2">@kvp.Key, @Model[kvp.Key].FieldName:</label>
+                <div class="col-md-8">
+                    <input asp-for="@Model[kvp.Key].Value" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+        }
+    }
+
+    <input class="btn btn-default" type="submit" />
+}
+</form>
+</div>
